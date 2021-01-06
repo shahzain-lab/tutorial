@@ -93,7 +93,7 @@ export default function () {
       .catch((e) => {
         setError("Your Reminder wasn't saved. Try again.");
         console.error(e);
-      })
+      })    
       .finally(() => {
         setIsSavingReminder(false);
       });
