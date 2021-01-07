@@ -1,7 +1,13 @@
-import { createServer, Model, hasMany, belongsTo} from "miragejs"
+import { createServer, Model,RestSerializer,Factory ,hasMany, belongsTo} from "miragejs"
 
 export default function () {
   return createServer({
+      serializers:{
+          reminder: RestSerializer.extend({
+              include: ['list'],
+              embed: true
+          })
+      },
     models:{
         list: Model.extend({
            reminders: hasMany() 
@@ -10,10 +16,20 @@ export default function () {
             list: belongsTo()
         }),
     },
+    factories: {
+        list: Factory.extend({
+           name(i){
+               return `List ${i}`
+           }
+        }),
+      reminder: Factory.extend({
+          text(i){
+              return `Reminder ${i}`
+          }
+      })
+    },
     seeds(server) {
-        server.create("reminder", { text: "Walk the dog" })
-        server.create("reminder", { text: "Take out the trash" })
-        server.create("reminder", { text: "Work out" })
+        server.createList("reminder",3)
            
         let homeList = server.create("list", { name: "Home" });
   server.create("reminder", { list: homeList, text: "Do taxes" });
