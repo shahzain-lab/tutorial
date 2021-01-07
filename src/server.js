@@ -22,6 +22,7 @@ export default function () {
                return `List ${i}`
            }
         }),
+        
       reminder: Factory.extend({
           text(i){
               return `Reminder ${i}`
@@ -29,13 +30,9 @@ export default function () {
       })
     },
     seeds(server) {
-        server.createList("reminder",3)
-           
-        let homeList = server.create("list", { name: "Home" });
-  server.create("reminder", { list: homeList, text: "Do taxes" });
-
-  let workList = server.create("list", { name: "Work" });
-  server.create("reminder", { list: workList, text: "Visit bank" });
+       server.create('list',{
+           reminders: server.createList('reminder',3)
+       })
       },
     routes() {
       this.get("/api/reminders", (schema) => {
